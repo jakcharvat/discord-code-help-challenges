@@ -7,8 +7,8 @@ Have fun looking through them!
 
 
 
-### Challenges
+## Challenges
 
-- [Challenge 1](./src/challenge1.hs)
+#### [Challenge 1](./src/challenge1.hs)
 > Ask a user for a word, then reverse that word and show it to them. You can write this in any coding language you'd like. Just let us know what language when you submit the answer.
 
