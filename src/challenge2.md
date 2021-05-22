@@ -2,7 +2,7 @@
 
 #### Prompt
 
-Create a HTML/CSS Webpage that prints a joke when someone clicks a button. You can use JS, PHP, Python, whatever. The code just has to work on a HTML/CSS webpage. BONUS POINTS OPPORTUNITY: The fancier you make it (and funnier the jokes) the more points you get.
+> Create a HTML/CSS Webpage that prints a joke when someone clicks a button. You can use JS, PHP, Python, whatever. The code just has to work on a HTML/CSS webpage. BONUS POINTS OPPORTUNITY: The fancier you make it (and funnier the jokes) the more points you get.
 
 #### Link
 
@@ -13,3 +13,4 @@ To view the page live, please head [here](https://discordcodehelpchallenges.web.
 #### Source code
 
 The source code for the whole site is located in [this GitHub repo](https://github.com/jakcharvat/JokeJoke)
+
