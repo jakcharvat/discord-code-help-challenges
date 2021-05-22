@@ -12,3 +12,6 @@ Have fun looking through them!
 #### [Challenge 1](./src/challenge1.hs)
 > Ask a user for a word, then reverse that word and show it to them. You can write this in any coding language you'd like. Just let us know what language when you submit the answer.
 
+#### [Challenge 2](./src/challenge2.md)
+> Create a HTML/CSS Webpage that prints a joke when someone clicks a button. You can use JS, PHP, Python, whatever. The code just has to work on a HTML/CSS webpage. BONUS POINTS OPPORTUNITY: The fancier you make it (and funnier the jokes) the more points you get.
+
