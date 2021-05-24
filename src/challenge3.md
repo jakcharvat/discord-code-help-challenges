@@ -4,7 +4,7 @@
 
 > Create the popular challenge FizzBuzz, If you don't know what this is, you can read [this Wikipedia article](https://en.wikipedia.org/wiki/Fizz_buzz) - A bonus point will be awarded to the best submission!
 
-#### Source code
+#### Solution
 
 [Here](./challenge3.bf) is the solution to this challenge.
 
