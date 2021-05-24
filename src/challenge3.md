@@ -6,7 +6,7 @@
 
 #### Source code
 
-The source code for the whole site is located in [this file](./challenge3.bf).
+[Here](./challenge3.bf) is the solution to this challenge.
 
 #### Instructions
 
