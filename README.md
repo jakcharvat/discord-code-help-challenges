@@ -15,3 +15,6 @@ Have fun looking through them!
 #### [Challenge 2](./src/challenge2.md)
 > Create a HTML/CSS Webpage that prints a joke when someone clicks a button. You can use JS, PHP, Python, whatever. The code just has to work on a HTML/CSS webpage. BONUS POINTS OPPORTUNITY: The fancier you make it (and funnier the jokes) the more points you get.
 
+#### [Challenge 3](./src/challenge3.md)
+> Create the popular challenge FizzBuzz, If you don't know what this is, you can read [this Wikipedia article](https://en.wikipedia.org/wiki/Fizz_buzz) - A bonus point will be awarded to the best submission!
+
