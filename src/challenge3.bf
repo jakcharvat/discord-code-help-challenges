@@ -1,4 +1,4 @@
-countdown timer stored in c5
+countdown ticker stored in c5
 current iteration in c6
 >>>>> ++++++++++ [ - < ++++++++++ > ] < c5 = 100
 
