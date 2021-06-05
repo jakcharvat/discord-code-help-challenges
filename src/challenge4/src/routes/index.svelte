@@ -1,2 +1,19 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+import { gameState } from '$lib/scripts/gameManager';
+import TicTacToeBoard from '$lib/views/TicTacToeBoard.svelte'
+</script>
+
+
+<style>
+.container {
+    display: grid;
+    place-items: center;
+    padding-top: 100px;
+}
+</style>
+
+
+<div class="container">
+    <TicTacToeBoard />
+</div>
+
