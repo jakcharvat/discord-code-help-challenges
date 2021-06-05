@@ -47,6 +47,7 @@ button {
 button:not(:is(.cross, .naught)):hover {
     box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-colour);
     transform: translate(var(--hover-translate), var(--hover-translate));
+    cursor: pointer;
 }
 
 

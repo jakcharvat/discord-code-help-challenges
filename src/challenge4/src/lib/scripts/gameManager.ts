@@ -16,7 +16,7 @@ function otherPlayer(player: Player): Player {
 
 
 /* ------------------------------------------------- STATE ------------------------------------------------ */
-type Board = (Player | null)[][]
+type Board = (Player)[][]
 
 type TicTacToeState = { 
     currentPlayer: Player, 
@@ -26,18 +26,38 @@ type TicTacToeState = {
 const initialState: TicTacToeState = {
     currentPlayer: Player.Cross,
     board: [
-        [ null, null, null ],
-        [ null, null, null ],
-        [ null, null, null ]
+        [ 0, 0, 0 ],
+        [ 0, 0, 0 ],
+        [ 0, 0, 0 ]
     ]
 }
-const ticTacToeStore = writable(initialState)
+const ticTacToeStore = writable(deepcopy(initialState))
 const gameState = derived(ticTacToeStore, state => state)
 
 function deepcopy(state: TicTacToeState): TicTacToeState {
     return {
         currentPlayer: state.currentPlayer,
         board: state.board.map(row => Object.assign([], row))
+    }
+}
+
+function encode(state: TicTacToeState): string {
+    return `${state.currentPlayer}${state.board.map(row => row.map((p) => +p).join('')).join('')}`
+}
+
+function decode(str: string): TicTacToeState {
+    const board: Board = []
+    for (let i = 0; i < 3; i++) {
+        const row: number[] = []
+        for (let j = 0; j < 3; j++) {
+            row.push(+str[i*3 + j + 1])
+        }
+        board.push(row)
+    }
+
+    return {
+        currentPlayer: +str[0],
+        board: board
     }
 }
 
@@ -56,6 +76,11 @@ function play(row: number, col: number) {
         let newState = deepcopy(curr)
         newState.board[row][col] = curr.currentPlayer
         newState.currentPlayer = otherPlayer(curr.currentPlayer)
+
+        console.log(newState)
+        console.log(decode(encode(newState)))
+        console.log(encode(newState))
+
         return newState
     })
 }
