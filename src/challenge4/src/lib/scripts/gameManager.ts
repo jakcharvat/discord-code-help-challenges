@@ -16,12 +16,28 @@ function otherPlayer(player: Player): Player {
 
 
 /* ------------------------------------------------- STATE ------------------------------------------------ */
+enum WinDirection {
+    horizontal = 1,
+    vertical,
+    diagonalForward,
+    diagonalBack
+}
+
+function winDirectionClass(winDirection: WinDirection) {
+    return {
+        1: `win-horizontal`,
+        2: `win-vertical`,
+        3: `win-diagonal win-diagonal-forward`,
+        4: `win-diagonal win-diagonal-back`
+    }[winDirection]
+}
+
 type Board = (Player)[][]
 
 type WinInfo = {
     direction: WinDirection,
-    winningX: number,
-    winningY: number
+    winningRow: number,
+    winningCol: number
 }
 
 type TicTacToeState = { 
@@ -56,9 +72,9 @@ function encode(state: TicTacToeState): string {
     const win = () => {
         if (!state.win) { return '' }
         const dir = `${state.win.direction}`
-        const x = `${state.win.winningX}`
-        const y = `${state.win.winningY}`
-        return dir + x + y
+        const row = `${state.win.winningRow}`
+        const col = `${state.win.winningCol}`
+        return dir + row + col
     }
     return currPlayer + board + win()
 }
@@ -78,8 +94,8 @@ function decode(str: string): TicTacToeState {
         
         return {
             direction: +str[10],
-            winningX: +str[11],
-            winningY: +str[12]
+            winningRow: +str[11],
+            winningCol: +str[12]
         }
     }
 
@@ -107,8 +123,8 @@ function play(row: number, col: number) {
         if (winDirection) {
             newState.win = {
                 direction: winDirection,
-                winningX: col,
-                winningY: row
+                winningRow: row,
+                winningCol: col
             }
         }
 
@@ -122,16 +138,9 @@ function play(row: number, col: number) {
 
 
 /* ----------------------------------------------- CHECK WIN ---------------------------------------------- */
-enum WinDirection {
-    horizontal = 1,
-    vertical,
-    diagonalForward,
-    diagonalBack
-}
-
 function checkWin(board: Board, player: Player, row: number, col: number): WinDirection | null {
     // either one on each side, or two to one side
-    const neighbours = [[0, 1], [1, 0], [1, 1], [1, -1]] // plus their reverse
+    const neighbours = [[0, 1], [1, 0], [1, -1], [1, 1]] // plus their reverse
 
     const blockAt = (row: number, col: number) => {
         if (board[row]) {
@@ -159,5 +168,5 @@ function checkWin(board: Board, player: Player, row: number, col: number): WinDi
 
 
 
-export type { TicTacToeState }
-export { gameState, play, Player }
+export type { TicTacToeState, WinInfo }
+export { gameState, play, Player, WinDirection, winDirectionClass }

@@ -17,6 +17,7 @@ function click() {
 gameState.subscribe(state => {
     const player = state.board[row][col]
     if (!player) {
+        if (state.win) { className = 'won'; return }
         className = state.currentPlayer === Player.Cross ? 'possible-cross' : 'possible-naught'
     } else { 
         className = player === Player.Cross ? 'cross' : 'naught'
@@ -29,13 +30,13 @@ gameState.subscribe(state => {
 button {
     --primary-colour: #68dba3;
     --background-colour: var(--primary-colour);
-    --size: 100px;
+    --size: var(--box-size);
 
     --shadow-offset: 6px;
     --shadow-colour: #3faf79;
     --hover-translate: calc(-1 * var(--shadow-offset) / 2);
 
-    --cross-colour: #1a5a3b;
+    --cross-colour: #1e6b46;
 
     background: var(--background-colour);
     width: var(--size);
@@ -44,7 +45,7 @@ button {
     border: none;
 }
 
-button:not(:is(.cross, .naught)):hover {
+button:not(:is(.cross, .naught, .won)):hover {
     box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--shadow-colour);
     transform: translate(var(--hover-translate), var(--hover-translate));
     cursor: pointer;
