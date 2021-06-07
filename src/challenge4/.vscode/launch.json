@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "NPM run dev",
+            "name": "Make serve-dev",
             "type": "node",
             "request": "launch",
             "cwd": "${workspaceRoot}",
-            "runtimeExecutable": "npm",
+            "runtimeExecutable": "make",
             "runtimeArgs": [
-                "run", "dev"
+                "serve_dev"
             ],
             "port": 3000
         }

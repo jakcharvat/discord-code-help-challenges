@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DE2298BD266CC4C90053C2D2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE2298BC266CC4C90053C2D2 /* main.cpp */; };
+		DE2298C5266CC50B0053C2D2 /* gameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE2298C3266CC50B0053C2D2 /* gameManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		DE2298B9266CC4C90053C2D2 /* WASM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WASM; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE2298BC266CC4C90053C2D2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DE2298C3266CC50B0053C2D2 /* gameManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gameManager.cpp; sourceTree = "<group>"; };
+		DE2298C4266CC50B0053C2D2 /* gameManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = gameManager.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				DE2298BC266CC4C90053C2D2 /* main.cpp */,
+				DE2298C4266CC50B0053C2D2 /* gameManager.hpp */,
+				DE2298C3266CC50B0053C2D2 /* gameManager.cpp */,
 			);
 			path = WASM;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE2298BD266CC4C90053C2D2 /* main.cpp in Sources */,
+				DE2298C5266CC50B0053C2D2 /* gameManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,20 +245,26 @@
 		DE2298C1266CC4C90053C2D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P4L2M42FLR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = "/usr/local/Cellar/emscripten/2.0.22/libexec/system/**";
+				USE_HEADERMAP = YES;
 			};
 			name = Debug;
 		};
 		DE2298C2266CC4C90053C2D2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P4L2M42FLR;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = "/usr/local/Cellar/emscripten/2.0.22/libexec/system/**";
+				USE_HEADERMAP = YES;
 			};
 			name = Release;
 		};
