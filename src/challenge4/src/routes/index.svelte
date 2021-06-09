@@ -1,5 +1,4 @@
 <script lang="ts">
-import { gameState } from '$lib/scripts/gameManager';
 import TicTacToeBoard from '$lib/views/TicTacToeBoard.svelte'
 </script>
 
@@ -16,4 +15,3 @@ import TicTacToeBoard from '$lib/views/TicTacToeBoard.svelte'
 <div class="container">
     <TicTacToeBoard />
 </div>
-

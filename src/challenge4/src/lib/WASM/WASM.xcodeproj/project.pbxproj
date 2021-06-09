@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DE2298BD266CC4C90053C2D2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE2298BC266CC4C90053C2D2 /* main.cpp */; };
 		DE2298C5266CC50B0053C2D2 /* gameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE2298C3266CC50B0053C2D2 /* gameManager.cpp */; };
+		DE62874C266ED59800A1FE4C /* exports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE62874A266ED59800A1FE4C /* exports.cpp */; };
+		DEA53C59266ED36B00903361 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE2298BC266CC4C90053C2D2 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		DE2298BC266CC4C90053C2D2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DE2298C3266CC50B0053C2D2 /* gameManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gameManager.cpp; sourceTree = "<group>"; };
 		DE2298C4266CC50B0053C2D2 /* gameManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = gameManager.hpp; sourceTree = "<group>"; };
+		DE62874A266ED59800A1FE4C /* exports.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exports.cpp; sourceTree = "<group>"; };
+		DE62874B266ED59800A1FE4C /* exports.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = exports.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,8 @@
 				DE2298BC266CC4C90053C2D2 /* main.cpp */,
 				DE2298C4266CC50B0053C2D2 /* gameManager.hpp */,
 				DE2298C3266CC50B0053C2D2 /* gameManager.cpp */,
+				DE62874B266ED59800A1FE4C /* exports.hpp */,
+				DE62874A266ED59800A1FE4C /* exports.cpp */,
 			);
 			path = WASM;
 			sourceTree = "<group>";
@@ -93,7 +98,7 @@
 		DE2298B1266CC4C90053C2D2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
 					DE2298B8266CC4C90053C2D2 = {
 						CreatedOnToolsVersion = 12.5;
@@ -123,7 +128,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE2298BD266CC4C90053C2D2 /* main.cpp in Sources */,
+				DEA53C59266ED36B00903361 /* main.cpp in Sources */,
+				DE62874C266ED59800A1FE4C /* exports.cpp in Sources */,
 				DE2298C5266CC50B0053C2D2 /* gameManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,11 +252,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P4L2M42FLR;
 				ENABLE_HARDENED_RUNTIME = YES;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SYSTEM_HEADER_SEARCH_PATHS = "/usr/local/Cellar/emscripten/2.0.22/libexec/system/**";
+				SYSTEM_HEADER_SEARCH_PATHS = "";
 				USE_HEADERMAP = YES;
 			};
 			name = Debug;
@@ -259,6 +267,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P4L2M42FLR;
 				ENABLE_HARDENED_RUNTIME = YES;

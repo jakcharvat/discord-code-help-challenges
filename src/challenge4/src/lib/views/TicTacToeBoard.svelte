@@ -1,7 +1,8 @@
 <script lang="ts">
 import type { WinInfo } from '$lib/scripts/gameManager'
-import { gameState, winDirectionClass } from '$lib/scripts/gameManager';
+import GameManager, { winDirectionClass } from '$lib/scripts/gameManager';
 import TicTacToeBox from '$lib/views/TicTacToeBox.svelte'
+import { onMount, setContext } from 'svelte';
 
 const getWinClass = (win: WinInfo): string => {
     const direction = winDirectionClass(win.direction)
@@ -11,14 +12,22 @@ const getWinClass = (win: WinInfo): string => {
 }
 
 let winClass: string = ''
+let managerInstance: GameManager | null
 
-gameState.subscribe(state => {
-    const win = state.win
-    if (win) {
-        winClass = getWinClass(win)
-    } else {
-        winClass = ''
-    }
+setContext('gameManager', {
+    getGameManager: (): GameManager => managerInstance
+})
+
+onMount(async () => {
+    managerInstance = await GameManager.create()
+    managerInstance.gameState.subscribe(state => {
+        const win = state.win
+        if (win) {
+            winClass = getWinClass(win)
+        } else {
+            winClass = ''
+        }
+    })
 })
 </script>
 
@@ -100,10 +109,14 @@ gameState.subscribe(state => {
 </style>
 
 
-<div id="grid" class={winClass}>
-    {#each [0, 1, 2] as row}
-        {#each [0, 1, 2] as col}
-            <TicTacToeBox row={row} col={col} />
+{#if managerInstance}
+    <div id="grid" class={winClass}>
+        {#each [0, 1, 2] as row}
+            {#each [0, 1, 2] as col}
+                <TicTacToeBox row={row} col={col} />
+            {/each}
         {/each}
-    {/each}
-</div>
+    </div>
+{:else}
+    <h3>Loading TicTacToe...</h3>
+{/if}

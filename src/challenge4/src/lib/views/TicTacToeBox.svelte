@@ -1,27 +1,33 @@
 <script lang="ts">
-import { 
-    gameState, 
-    Player, 
-    play 
-} from '$lib/scripts/gameManager'
+import type GameManager from "$lib/scripts/gameManager"
+import { Player } from "$lib/scripts/gameManager"
+import { getContext, onMount } from "svelte"
+
 
 export let row: number
 export let col: number
 
 let className = ''
 
+let gameManager: GameManager | null
+
 function click() {
-    play(row, col)
+    gameManager.play(row, col)
 }
 
-gameState.subscribe(state => {
-    const player = state.board[row][col]
-    if (!player) {
-        if (state.win) { className = 'won'; return }
-        className = state.currentPlayer === Player.Cross ? 'possible-cross' : 'possible-naught'
-    } else { 
-        className = player === Player.Cross ? 'cross' : 'naught'
-    }
+const { getGameManager } = getContext('gameManager')
+
+onMount(() => {
+    gameManager = getGameManager()
+    gameManager.gameState.subscribe(state => {
+        const player = state.board[row][col]
+        if (!player) {
+            if (state.win) { className = 'won'; return }
+            className = state.currentPlayer === Player.Cross ? 'possible-cross' : 'possible-naught'
+        } else { 
+            className = player === Player.Cross ? 'cross' : 'naught'
+        }
+    })
 })
 </script>
 
@@ -94,7 +100,16 @@ button:is(.naught, .possible-naught)::before {
     border: 20px solid var(--cross-colour);
     border-radius: 100%;
 }
+
+
+
+button.no-manager {
+    background: salmon;
+}
 </style>
 
-
-<button class={className} on:click={() => click()}></button>
+{#if gameManager}
+    <button class={className} on:click={() => click()}></button>
+{:else}
+    <button class="no-manager">MISSING GAME MANAGER</button>
+{/if}

@@ -5,6 +5,21 @@
 		<link rel="icon" href="/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%svelte.head%
+
+		<!-- <script type="module">
+			import Module from '/gameManager.js'
+			
+			async function run() {
+				console.log("hello")
+				const module = Module()
+					.then((module) => {
+						console.log(module)
+						console.log(module._play(0, 0))
+					})
+			}
+
+			run()
+		</script> -->
 	</head>
 	<body>
 		<div id="svelte">%svelte.body%</div>
