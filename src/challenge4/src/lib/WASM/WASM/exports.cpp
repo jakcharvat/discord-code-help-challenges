@@ -26,6 +26,10 @@ int getWinDirection()
 }
 
 
+int getCurrentPlayer()
+{
+    return (int)currentPlayer();
+}
 
 }
 #endif

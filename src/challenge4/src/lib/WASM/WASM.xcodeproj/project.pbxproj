@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE119FDD2672831700F34129 /* minimax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE119FDB2672831700F34129 /* minimax.cpp */; };
+		DE119FE326728EA000F34129 /* sharedFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE119FE126728EA000F34129 /* sharedFunctions.cpp */; };
 		DE2298C5266CC50B0053C2D2 /* gameManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE2298C3266CC50B0053C2D2 /* gameManager.cpp */; };
 		DE62874C266ED59800A1FE4C /* exports.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE62874A266ED59800A1FE4C /* exports.cpp */; };
 		DEA53C59266ED36B00903361 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE2298BC266CC4C90053C2D2 /* main.cpp */; };
@@ -25,6 +27,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DE119FDB2672831700F34129 /* minimax.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = minimax.cpp; sourceTree = "<group>"; };
+		DE119FDC2672831700F34129 /* minimax.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = minimax.hpp; sourceTree = "<group>"; };
+		DE119FDF2672835900F34129 /* types.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = types.hpp; sourceTree = "<group>"; };
+		DE119FE126728EA000F34129 /* sharedFunctions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sharedFunctions.cpp; sourceTree = "<group>"; };
+		DE119FE226728EA000F34129 /* sharedFunctions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sharedFunctions.hpp; sourceTree = "<group>"; };
 		DE2298B9266CC4C90053C2D2 /* WASM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WASM; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE2298BC266CC4C90053C2D2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DE2298C3266CC50B0053C2D2 /* gameManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gameManager.cpp; sourceTree = "<group>"; };
@@ -64,8 +71,13 @@
 			isa = PBXGroup;
 			children = (
 				DE2298BC266CC4C90053C2D2 /* main.cpp */,
+				DE119FDF2672835900F34129 /* types.hpp */,
+				DE119FE226728EA000F34129 /* sharedFunctions.hpp */,
+				DE119FE126728EA000F34129 /* sharedFunctions.cpp */,
 				DE2298C4266CC50B0053C2D2 /* gameManager.hpp */,
 				DE2298C3266CC50B0053C2D2 /* gameManager.cpp */,
+				DE119FDC2672831700F34129 /* minimax.hpp */,
+				DE119FDB2672831700F34129 /* minimax.cpp */,
 				DE62874B266ED59800A1FE4C /* exports.hpp */,
 				DE62874A266ED59800A1FE4C /* exports.cpp */,
 			);
@@ -130,7 +142,9 @@
 			files = (
 				DEA53C59266ED36B00903361 /* main.cpp in Sources */,
 				DE62874C266ED59800A1FE4C /* exports.cpp in Sources */,
+				DE119FE326728EA000F34129 /* sharedFunctions.cpp in Sources */,
 				DE2298C5266CC50B0053C2D2 /* gameManager.cpp in Sources */,
+				DE119FDD2672831700F34129 /* minimax.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

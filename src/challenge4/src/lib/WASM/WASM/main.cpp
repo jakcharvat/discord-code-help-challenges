@@ -76,9 +76,9 @@ std::string boardRep(const Board &board)
 
 
 int main() {
-    std::cout << play(0, 0) << std::endl;
-    std::cout << play(1, 0) << std::endl;
-    std::cout << play(0, 1) << std::endl;
+//    std::cout << playAt(0, 0) << std::endl;
+//    std::cout << playAt(1, 0) << std::endl;
+//    std::cout << playAt(0, 1) << std::endl;
 //    std::cout << getWinInfo() << std::endl;
     
     

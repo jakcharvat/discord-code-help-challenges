@@ -73,13 +73,21 @@ class GameManager {
         return await Module()
     }
 
+    private getWinDirection(): WinDirection {
+        return this.managerInstance._getWinDirection()
+    }
+
+    private getCurrentPlayer(): Player {
+        return this.managerInstance._getCurrentPlayer()
+    }
+
     play(row: number, col: number) {
         this.ticTacToeStore.update(currState => {
             const copy = deepcopy(currState)
             const player = this.managerInstance._play(row, col)
             copy.board[row][col] = player
 
-            const direction: WinDirection = this.managerInstance._getWinDirection()
+            const direction: WinDirection = this.getWinDirection()
             if (direction && !copy.win) {
                 copy.win = {
                     direction: direction,
@@ -87,6 +95,8 @@ class GameManager {
                     winningCol: col
                 }
             }
+
+            copy.currentPlayer = this.getCurrentPlayer()
 
             return copy
         })
