@@ -12,7 +12,7 @@ let className = ''
 let gameManager: GameManager | null
 
 function click() {
-    gameManager.play(row, col)
+    gameManager.playPlayer(row, col)
 }
 
 const { getGameManager } = getContext('gameManager')

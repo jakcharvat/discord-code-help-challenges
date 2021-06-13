@@ -40,6 +40,11 @@ type TicTacToeState = {
     win: (WinInfo | null)
 }
 
+type Coordinate = {
+    row: number,
+    col: number,
+}
+
 const initialState: TicTacToeState = {
     currentPlayer: Player.Cross,
     board: [
@@ -81,7 +86,16 @@ class GameManager {
         return this.managerInstance._getCurrentPlayer()
     }
 
-    play(row: number, col: number) {
+    private getBestMove(): Coordinate {
+        const coord = this.managerInstance._getBestPlay()
+        return {
+            row: Math.floor(coord / 10),
+            col: coord % 10
+        }
+    }
+
+    private play(row: number, col: number): boolean {
+        let playerChanged = false
         this.ticTacToeStore.update(currState => {
             const copy = deepcopy(currState)
             const player = this.managerInstance._play(row, col)
@@ -98,18 +112,34 @@ class GameManager {
 
             copy.currentPlayer = this.getCurrentPlayer()
 
+            if (currState.currentPlayer !== copy.currentPlayer) {
+                playerChanged = true
+            }
+
             return copy
         })
+
+        return playerChanged
+    }
+
+    playPlayer(row: number, col: number) {
+        const played = this.play(row, col)
+        if (played) { this.playAI() }
+    }
+
+    playAI() {
+        const coord = this.getBestMove()
+        this.play(coord.row, coord.col)
     }
 
     static async create(): Promise<GameManager> {
-        // try {
+        try {
             const wasm = await GameManager.loadWasm()
             return new GameManager(wasm)
-        // } catch(e) {
-        //     console.error('Could not instantiate GameManager WASM Module:')
-        //     console.error(e)
-        // }
+        } catch(e) {
+            console.error('Could not instantiate GameManager WASM Module:')
+            console.error(e)
+        }
     }
 }
 
@@ -117,116 +147,3 @@ class GameManager {
 export default GameManager
 export type { WinInfo, TicTacToeState }
 export { WinDirection, winDirectionClass, Player }
-
-
-
-
-
-
-
-
-
-
-// // function encode(state: TicTacToeState): string {
-// //     const currPlayer = `${state.currentPlayer}`
-// //     const board = `${state.board.map(row => row.map(p => +p).join('')).join('')}`
-// //     const win = () => {
-// //         if (!state.win) { return '' }
-// //         const dir = `${state.win.direction}`
-// //         const row = `${state.win.winningRow}`
-// //         const col = `${state.win.winningCol}`
-// //         return dir + row + col
-// //     }
-// //     return currPlayer + board + win()
-// // }
-
-// // function decode(str: string): TicTacToeState {
-// //     const board: Board = []
-// //     for (let i = 0; i < 3; i++) {
-// //         const row: number[] = []
-// //         for (let j = 0; j < 3; j++) {
-// //             row.push(+str[i*3 + j + 1])
-// //         }
-// //         board.push(row)
-// //     }
-
-// //     function getWinInfo(): (WinInfo | null) {
-// //         if (str.length <= 10) { return null }
-        
-// //         return {
-// //             direction: +str[10],
-// //             winningRow: +str[11],
-// //             winningCol: +str[12]
-// //         }
-// //     }
-
-// //     return {
-// //         currentPlayer: +str[0],
-// //         board: board,
-// //         win: getWinInfo()
-// //     }
-// // }
-
-
-// // /* ------------------------------------------------- PLAY ------------------------------------------------- */
-// // function play(row: number, col: number) {
-// //     ticTacToeStore.update(curr => {
-// //         if (curr.win) { return curr }
-// //         if (curr.board[row][col]) { return curr }
-// //         if (row < 0 || row >= curr.board.length) { return curr }
-// //         if (col < 0 || col >= curr.board[0].length) { return curr }
-
-// //         let newState = deepcopy(curr)
-// //         newState.board[row][col] = curr.currentPlayer
-// //         newState.currentPlayer = otherPlayer(curr.currentPlayer)
-
-// //         const winDirection = checkWin(curr.board, curr.currentPlayer, row, col)
-// //         if (winDirection) {
-// //             newState.win = {
-// //                 direction: winDirection,
-// //                 winningRow: row,
-// //                 winningCol: col
-// //             }
-// //         }
-
-// //         console.log(newState)
-// //         console.log(decode(encode(newState)))
-// //         console.log(encode(newState))
-
-// //         return newState
-// //     })
-// // }
-
-
-// // /* ----------------------------------------------- CHECK WIN ---------------------------------------------- */
-// // function checkWin(board: Board, player: Player, row: number, col: number): WinDirection | null {
-// //     // either one on each side, or two to one side
-// //     const neighbours = [[0, 1], [1, 0], [1, -1], [1, 1]] // plus their reverse
-
-// //     const blockAt = (row: number, col: number): (Player | null) => {
-// //         if (board[row]) {
-// //             return board[row][col]
-// //         }
-// //         return null
-// //     }
-    
-// //     for (const [idx, [addY, addX]] of neighbours.entries()) {
-// //         const direction: WinDirection = idx+1
-
-// //         if (blockAt(row + addY, col + addX) === player) {
-// //             // two in the original direction
-// //             if (blockAt(row + 2*addY, col + 2*addX) === player) { return direction }
-// //             // one on either side of the newest block
-// //             if (blockAt(row - addY, col - addX) === player) { return direction }
-// //         } else if (blockAt(row - addY, col - addX) === player) {
-// //             // two in the opposite direction
-// //             if (blockAt(row - 2*addY, col - 2*addX) === player) { return direction }
-// //         }
-// //     }
-
-// //     return null
-// // }
-
-
-// // export type { TicTacToeState, WinInfo }
-// // export { gameState, play, Player, WinDirection, winDirectionClass }
