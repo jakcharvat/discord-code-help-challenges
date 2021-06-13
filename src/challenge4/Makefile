@@ -6,20 +6,14 @@ EMSCRIPTEN_OUTPUT 	= gameManager.wasm
 EMSCRIPTEN_OUTPUT_D = gameManager.html
 
 
-dev: _build
-	svelte-kit dev
-
-build: _build
-	svelte-kit build
-
-preview: _build
-	svelte-kit preview
+serve_dev: build
+	npm run dev
 
 
-.PHONY: _build
+.PHONY: build
 
 
-_build:
+build:
 	cd $(EMSCRIPTEN_SRC_DIR) && \
 	$(EMSCRIPTEN) $(EMSCRIPTEN_FLAGS) $(EMSCRIPTEN_COMPILE) -o $(EMSCRIPTEN_OUTPUT_D) && \
 	rm -f $(EMSCRIPTEN_OUTPUT_D) && \
