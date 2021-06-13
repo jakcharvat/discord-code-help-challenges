@@ -12,6 +12,7 @@
 
 #include "gameManager.hpp"
 #include "exports.hpp"
+#include "minimax.hpp"
 
 typedef std::vector<std::vector<Player>> Board;
 
@@ -82,6 +83,10 @@ int main() {
 //    std::cout << getWinInfo() << std::endl;
     
     
+//    playAt(0, 0);
+//    playAt(0, 1);
+//    playAt(1, 1);
+    
     while (true)
     {
         std::cout << "Current state:" << std::endl;
@@ -92,6 +97,18 @@ int main() {
         std::cin >> input;
         
         if (input == "q" || input == "quit") { break; }
+        
+        if (input == "a" || input == "ai") {
+            Coord bestMove = getBestMove(getState());
+            if (bestMove == CoordConsts::noCoord)
+            {
+                std::cout << "NO POSSIBLE MOVES" << std::endl;
+            } else {
+                playAt(bestMove.first, bestMove.second);
+            }
+            continue;
+        }
+        
         int row = std::stoi(input);
         
         std::cin >> input;
@@ -100,6 +117,7 @@ int main() {
         
         playAt(row, col);
     }
+
     
     std::cout << std::endl << "Game Finished" << std::endl;
 }

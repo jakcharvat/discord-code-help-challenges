@@ -9,6 +9,10 @@
 
 #include <vector>
 
+#ifdef DEBUG
+#include <iostream>
+#endif
+
 #include "sharedFunctions.hpp"
 
 #define WIN_SCORE 100
@@ -19,6 +23,11 @@
 
 int scoreForLine(Player a, Player b, Player c)
 {
+    if (b == NoPlayer)
+    {
+        return 0;
+    }
+    
     if (a == b && b == c)
     {
         return a == Cross ? WIN_SCORE : -WIN_SCORE;
@@ -26,16 +35,40 @@ int scoreForLine(Player a, Player b, Player c)
     
     if (a == b || b == c)
     {
-        return b == Cross ? TWO_IN_ROW_SCORE : -TWO_IN_ROW_SCORE;
+//        return b == Cross ? TWO_IN_ROW_SCORE : -TWO_IN_ROW_SCORE;
     }
     
     return 0;
 }
 
 
+#ifdef DEBUG
+std::ostream &operator << (std::ostream &os, const Board &board)
+{
+    for (int row = 0; row < 3; ++row)
+    {
+        for (int col = 0; col < 3; ++col)
+        {
+            switch (board[row][col])
+            {
+                case NoPlayer: os << " "; break;
+                case Cross: os << "X"; break;
+                case Naught: os << "O"; break;
+            }
+        }
+        std::cout << std::endl;
+    }
+    return os;
+}
+#endif
+
+
 //MARK: - Evaluate Board
 int evaluateBoard(const Board &board)
 {
+#ifdef DEBUG
+    std::cout << board << std::endl;
+#endif
     int score = 0;
     // Check rows
     for (int row = 0; row < BOARD_HEIGHT; ++row)
@@ -52,6 +85,10 @@ int evaluateBoard(const Board &board)
     // Check diagonals
     score += scoreForLine(board[0][0], board[1][1], board[2][2]);
     score += scoreForLine(board[2][0], board[1][1], board[0][2]);
+    
+#ifdef DEBUG
+    std::cout << score << std::endl << "------------------------------" << std::endl << std::endl;
+#endif
     
     return score;
 }
@@ -88,20 +125,21 @@ std::pair<Coord, int> evalBestMove(const TicTacToeState &state)
     
     if (possibleMoves.empty())
     {
-        return { noCoord, 0 };
+        return { CoordConsts::noCoord, 0 };
     }
     
-    Coord bestMove = noCoord;
+    Coord bestMove = CoordConsts::noCoord;
     int bestScore = state.currentPlayer == Cross ? INT_MIN : INT_MAX;
     
     for (auto move: possibleMoves)
     {
         int row = move.first, col = move.second;
-        WinDirection dir = checkWin(state.board, state.currentPlayer, row, col);
-        if (dir != NoDirection)
+        TicTacToeState stateCopy = state;
+        play(&stateCopy, row, col);
+        if (stateCopy.win.direction != NoDirection)
         {
-            int score = evaluateBoard(state.board);
-            if (isBetter(bestScore, score, state.currentPlayer))
+            int score = evaluateBoard(stateCopy.board);
+            if (isBetter(bestScore, score, stateCopy.currentPlayer))
             {
                 bestScore = score;
                 bestMove = move;
@@ -109,16 +147,20 @@ std::pair<Coord, int> evalBestMove(const TicTacToeState &state)
             continue;
         }
         
-        TicTacToeState stateCopy = state;
-        play(&stateCopy, row, col);
         std::pair<Coord, int> value = evalBestMove(stateCopy);
+        
+        if (value.first == CoordConsts::noCoord)
+        {
+            value.second = evaluateBoard(state.board);
+        }
+        
         if (isBetter(bestScore, value.second, state.currentPlayer)) {
-            bestScore = value.second;
-            bestMove = value.first;
+            bestScore = value.second * 0.9;
+            bestMove = { row, col };
         }
     }
     
-    return { { 0, 0 }, 0 };
+    return { bestMove, bestScore };
 }
 
 
@@ -127,3 +169,6 @@ Coord getBestMove(const TicTacToeState &state)
 {
     return evalBestMove(state).first;
 }
+
+
+Coord CoordConsts::noCoord = { -1, -1 };

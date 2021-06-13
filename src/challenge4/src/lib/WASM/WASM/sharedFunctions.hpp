@@ -7,12 +7,17 @@
 
 #pragma once
 
+#include <string>
+
 #include "types.hpp"
+
 
 Player otherPlayer(const Player &player);
 
 
+std::string encode(const TicTacToeState &state);
+TicTacToeState decode(const std::string &str);
+
+
 void play(TicTacToeState *state, const int &row, const int &col);
-
-
 WinDirection checkWin(const Board &board, const Player &player, const int &row, const int &col);

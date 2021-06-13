@@ -108,6 +108,12 @@ Module['ready'] = new Promise(function(resolve, reject) {
       }
     
 
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_getBestPlay')) {
+        Object.defineProperty(Module['ready'], '_getBestPlay', { configurable: true, get: function() { abort('You are getting _getBestPlay on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_getBestPlay', { configurable: true, set: function() { abort('You are setting _getBestPlay on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
       if (!Object.getOwnPropertyDescriptor(Module['ready'], 'onRuntimeInitialized')) {
         Object.defineProperty(Module['ready'], 'onRuntimeInitialized', { configurable: true, get: function() { abort('You are getting onRuntimeInitialized on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], 'onRuntimeInitialized', { configurable: true, set: function() { abort('You are setting onRuntimeInitialized on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
@@ -2012,6 +2018,9 @@ var _getWinDirection = Module["_getWinDirection"] = createExportWrapper("getWinD
 
 /** @type {function(...*):?} */
 var _getCurrentPlayer = Module["_getCurrentPlayer"] = createExportWrapper("getCurrentPlayer");
+
+/** @type {function(...*):?} */
+var _getBestPlay = Module["_getBestPlay"] = createExportWrapper("getBestPlay");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");

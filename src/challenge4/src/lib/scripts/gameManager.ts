@@ -103,13 +103,13 @@ class GameManager {
     }
 
     static async create(): Promise<GameManager> {
-        try {
+        // try {
             const wasm = await GameManager.loadWasm()
             return new GameManager(wasm)
-        } catch(e) {
-            console.error('Could not instantiate GameManager WASM Module:')
-            console.error(e)
-        }
+        // } catch(e) {
+        //     console.error('Could not instantiate GameManager WASM Module:')
+        //     console.error(e)
+        // }
     }
 }
 

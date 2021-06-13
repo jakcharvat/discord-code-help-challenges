@@ -17,4 +17,7 @@ typedef std::pair<int, int> Coord;
 Coord getBestMove(const TicTacToeState &state);
 
 
-Coord noCoord { -1, -1 };
+struct CoordConsts
+{
+    static Coord noCoord;
+};

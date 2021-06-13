@@ -24,6 +24,9 @@ int getWinDirection();
 EMSCRIPTEN_KEEPALIVE
 int getCurrentPlayer();
 
+EMSCRIPTEN_KEEPALIVE
+int getBestPlay();
+
 }
 
 #endif

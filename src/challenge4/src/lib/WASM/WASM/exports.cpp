@@ -31,5 +31,11 @@ int getCurrentPlayer()
     return (int)currentPlayer();
 }
 
+
+int getBestPlay()
+{
+    return getBestMove();
+}
+
 }
 #endif
