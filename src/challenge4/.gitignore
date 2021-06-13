@@ -46,4 +46,5 @@ node_modules
 /.svelte-kit
 /package
 **/*.wasm
+build/
 
