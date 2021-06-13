@@ -6,10 +6,6 @@ EMSCRIPTEN_OUTPUT 	= gameManager.wasm
 EMSCRIPTEN_OUTPUT_D = gameManager.html
 
 
-serve_dev: build
-	npm run dev
-
-
 .PHONY: build
 
 
