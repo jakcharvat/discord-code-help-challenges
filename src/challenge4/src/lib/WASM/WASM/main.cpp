@@ -99,7 +99,7 @@ int main() {
         if (input == "q" || input == "quit") { break; }
         
         if (input == "a" || input == "ai") {
-            Coord bestMove = getBestMove(getState());
+            Coord bestMove = getBestMove(getState(), 0);
             if (bestMove == CoordConsts::noCoord)
             {
                 std::cout << "NO POSSIBLE MOVES" << std::endl;

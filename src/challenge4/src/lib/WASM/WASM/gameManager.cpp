@@ -36,9 +36,9 @@ TicTacToeState initialState()
 }
 
 
-int getBestMove()
+int getBestMove(int difficulty)
 {
-    Coord bestMove = getBestMove(state);
+    Coord bestMove = getBestMove(state, difficulty);
     if (bestMove == CoordConsts::noCoord)
     {
         return -1;
@@ -54,6 +54,23 @@ int getBestMove()
 void playAt(int row, int col)
 {
     play(&state, row, col);
+}
+
+
+void resetGame()
+{
+    for (int row = 0; row < BOARD_HEIGHT; ++row)
+    {
+        for (int col = 0; col < BOARD_WIDTH; ++col)
+        {
+            state.board[row][col] = NoPlayer;
+        }
+    }
+    
+    state.win.direction = NoDirection;
+    state.win.winningCol = -1;
+    state.win.winningRow = -1;
+    state.currentPlayer = Cross;
 }
 
 
@@ -85,4 +102,26 @@ Player currentPlayer()
 TicTacToeState getState()
 {
     return state;
+}
+
+
+bool isTie()
+{
+    if (state.win.direction != NoDirection)
+    {
+        return false;
+    }
+    
+    for (auto &row : state.board)
+    {
+        for (auto &col : row)
+        {
+            if (col == NoPlayer)
+            {
+                return false;
+            }
+        }
+    }
+    
+    return true;
 }

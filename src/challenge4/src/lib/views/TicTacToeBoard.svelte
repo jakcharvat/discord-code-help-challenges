@@ -1,8 +1,10 @@
 <script lang="ts">
-import type { WinInfo } from '$lib/scripts/gameManager'
-import GameManager, { winDirectionClass } from '$lib/scripts/gameManager';
+import type { TicTacToeState, WinInfo } from '$lib/scripts/gameManager'
+import GameManager, { Player, winDirectionClass } from '$lib/scripts/gameManager';
 import TicTacToeBox from '$lib/views/TicTacToeBox.svelte'
-import { onMount, setContext } from 'svelte';
+import Button from '$lib/views/Button.svelte'
+import { onMount, setContext } from 'svelte'
+import type { Readable } from 'svelte/store';
 
 const getWinClass = (win: WinInfo): string => {
     const direction = winDirectionClass(win.direction)
@@ -11,15 +13,64 @@ const getWinClass = (win: WinInfo): string => {
     return `win ${direction} ${row} ${col}`
 }
 
+export let aiOpponent: boolean
+export let difficulty: Readable<0 | 1 | 2>
+
 let winClass: string = ''
 let managerInstance: GameManager | null
+
+difficulty.subscribe(changeDifficulty)
 
 setContext('gameManager', {
     getGameManager: (): GameManager => managerInstance
 })
 
+let titleText: string = ''
+let isGameOver: boolean = false
+
+function changeDifficulty(newDiff: 0 | 1 | 2) {
+    managerInstance?.setDifficulty(newDiff)
+}
+
+function playerCharacter(player: Player): string {
+    switch (player) {
+        case Player.Cross: return '❌'
+        case Player.Naught: return '⭕️'
+    }
+}
+
+function getTitleText(state: TicTacToeState): string {
+    if (state.isTie) {
+        return `It's a tie! 👔`
+    }
+
+    if (aiOpponent) {
+        if (state.win) {
+            if (state.currentPlayer === Player.Cross) {
+                return 'Congrats! You won! 🎉'
+            }
+            return 'You lost 😞'
+        }
+
+        if (state.currentPlayer === Player.Cross) {
+            return 'Your turn...'
+        }
+        return '🤖 playing...'
+    }
+    if (state.win) {
+        return `${playerCharacter(state.currentPlayer)} won! 🎉`
+    }
+    return `${playerCharacter(state.currentPlayer)}'s turn`
+}
+
+async function newGame() {
+    managerInstance.reset()
+}
+
+export { changeDifficulty }
+
 onMount(async () => {
-    managerInstance = await GameManager.create()
+    managerInstance = await GameManager.create(aiOpponent)
     managerInstance.gameState.subscribe(state => {
         const win = state.win
         if (win) {
@@ -27,6 +78,10 @@ onMount(async () => {
         } else {
             winClass = ''
         }
+
+        titleText = getTitleText(state)
+
+        isGameOver = state.isTie || (!!state.win)
     })
 })
 </script>
@@ -106,10 +161,15 @@ onMount(async () => {
 #grid.win-diagonal-back::before {
     --rotate: 45deg;
 }
+
+#newGameButton {
+    margin-top: 20px;
+}
 </style>
 
 
 {#if managerInstance}
+    <h1>{titleText}</h1>
     <div id="grid" class={winClass}>
         {#each [0, 1, 2] as row}
             {#each [0, 1, 2] as col}
@@ -117,6 +177,11 @@ onMount(async () => {
             {/each}
         {/each}
     </div>
+    {#if isGameOver}
+        <div id="newGameButton">
+            <Button click={newGame}>New Game</Button>
+        </div>
+    {/if}
 {:else}
     <h3>Loading TicTacToe...</h3>
 {/if}

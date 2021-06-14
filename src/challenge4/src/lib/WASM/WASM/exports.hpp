@@ -25,7 +25,13 @@ EMSCRIPTEN_KEEPALIVE
 int getCurrentPlayer();
 
 EMSCRIPTEN_KEEPALIVE
-int getBestPlay();
+int getBestPlay(int difficulty);
+
+EMSCRIPTEN_KEEPALIVE
+int getIsTie();
+
+EMSCRIPTEN_KEEPALIVE
+void reset();
 
 }
 

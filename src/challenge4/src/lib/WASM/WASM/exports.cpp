@@ -32,9 +32,21 @@ int getCurrentPlayer()
 }
 
 
-int getBestPlay()
+int getBestPlay(int difficulty)
 {
-    return getBestMove();
+    return getBestMove(difficulty);
+}
+
+
+int getIsTie()
+{
+    return (int)isTie();
+}
+
+
+void reset()
+{
+    resetGame();
 }
 
 }

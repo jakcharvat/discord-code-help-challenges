@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "make build && svelte-kit dev",
     "build": "make build && svelte-kit build",
+    "buildStatic": "svelte-kit build",
     "preview": "make build && svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch"

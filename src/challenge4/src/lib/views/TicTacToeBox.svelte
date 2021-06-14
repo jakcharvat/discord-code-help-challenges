@@ -12,6 +12,7 @@ let className = ''
 let gameManager: GameManager | null
 
 function click() {
+    if (gameManager.aiPlays && className === 'naught') { return }
     gameManager.playPlayer(row, col)
 }
 
@@ -23,8 +24,12 @@ onMount(() => {
         const player = state.board[row][col]
         if (!player) {
             if (state.win) { className = 'won'; return }
-            className = state.currentPlayer === Player.Cross ? 'possible-cross' : 'possible-naught'
-        } else { 
+            if (state.currentPlayer === Player.Cross) {
+                className = 'possible-cross'
+            } else {
+                className = state.aiPlays ? '' : 'possible-naught'
+            }
+        } else {
             className = player === Player.Cross ? 'cross' : 'naught'
         }
     })
@@ -34,15 +39,12 @@ onMount(() => {
 
 <style>
 button {
-    --primary-colour: #68dba3;
     --background-colour: var(--primary-colour);
     --size: var(--box-size);
 
     --shadow-offset: 6px;
-    --shadow-colour: #3faf79;
     --hover-translate: calc(-1 * var(--shadow-offset) / 2);
 
-    --cross-colour: #1e6b46;
 
     background: var(--background-colour);
     width: var(--size);

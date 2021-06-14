@@ -8,6 +8,7 @@
 #include "minimax.hpp"
 
 #include <vector>
+#include <time.h>
 
 #ifdef DEBUG
 #include <iostream>
@@ -119,7 +120,7 @@ bool isBetter(int oldScore, int newScore, const Player &player)
 }
 
 
-std::pair<Coord, int> evalBestMove(const TicTacToeState &state)
+std::pair<Coord, int> evalBestMove(const TicTacToeState &state, const int &difficulty)
 {
     std::vector<Coord> possibleMoves = generateMoves(state.board);
     
@@ -147,7 +148,7 @@ std::pair<Coord, int> evalBestMove(const TicTacToeState &state)
             continue;
         }
         
-        std::pair<Coord, int> value = evalBestMove(stateCopy);
+        std::pair<Coord, int> value = evalBestMove(stateCopy, difficulty);
         
         if (value.first == CoordConsts::noCoord)
         {
@@ -155,7 +156,10 @@ std::pair<Coord, int> evalBestMove(const TicTacToeState &state)
         }
         
         if (isBetter(bestScore, value.second, state.currentPlayer)) {
-            bestScore = value.second * 0.9;
+            int bias = rand() % 10 + 50*(2 - difficulty);
+            if ((rand() % 5) == 0) { bias = 0; }
+            int multiplier = rand() % 2 == 0 ? 1 : - 1;
+            bestScore = value.second * 0.9 + bias*multiplier;
             bestMove = { row, col };
         }
     }
@@ -165,9 +169,10 @@ std::pair<Coord, int> evalBestMove(const TicTacToeState &state)
 
 
 //MARK: - Get Best Move
-Coord getBestMove(const TicTacToeState &state)
+Coord getBestMove(const TicTacToeState &state, const int &difficulty)
 {
-    return evalBestMove(state).first;
+    srand((unsigned int)time(NULL));
+    return evalBestMove(state, difficulty).first;
 }
 
 

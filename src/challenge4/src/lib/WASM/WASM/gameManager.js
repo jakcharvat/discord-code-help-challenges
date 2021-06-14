@@ -1,6 +1,6 @@
 
 var Module = (function() {
-  var _scriptDir = import.meta.url;
+  var _scriptDir = "";
   
   return (
 function(Module) {
@@ -111,6 +111,18 @@ Module['ready'] = new Promise(function(resolve, reject) {
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '_getBestPlay')) {
         Object.defineProperty(Module['ready'], '_getBestPlay', { configurable: true, get: function() { abort('You are getting _getBestPlay on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '_getBestPlay', { configurable: true, set: function() { abort('You are setting _getBestPlay on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_getIsTie')) {
+        Object.defineProperty(Module['ready'], '_getIsTie', { configurable: true, get: function() { abort('You are getting _getIsTie on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_getIsTie', { configurable: true, set: function() { abort('You are setting _getIsTie on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_reset')) {
+        Object.defineProperty(Module['ready'], '_reset', { configurable: true, get: function() { abort('You are getting _reset on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_reset', { configurable: true, set: function() { abort('You are setting _reset on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
       }
     
 
@@ -1622,13 +1634,13 @@ function createExportWrapper(name, fixedasm) {
 }
 
 if (Module['locateFile']) {
-  var wasmBinaryFile = '/gameManager.wasm';
+  var wasmBinaryFile = `${location.href}gameManager.wasm`;
   if (!isDataURI(wasmBinaryFile)) {
     wasmBinaryFile = locateFile(wasmBinaryFile);
   }
 } else {
-  // Use bundler-friendly `new URL(..., import.meta.url)` pattern; works in browsers too.
-  var wasmBinaryFile = new URL('/gameManager.wasm', import.meta.url).toString();
+  // Use bundler-friendly `new URL(...)` pattern; works in browsers too.
+  var wasmBinaryFile = new URL(`${location.href}gameManager.wasm`).toString();
 }
 
 function getBinary(file) {
@@ -1969,6 +1981,14 @@ var ASM_CONSTS = {
       requestedSize = requestedSize >>> 0;
       abortOnCannotGrowMemory(requestedSize);
     }
+
+  function _time(ptr) {
+      var ret = (Date.now()/1000)|0;
+      if (ptr) {
+        HEAP32[((ptr)>>2)] = ret;
+      }
+      return ret;
+    }
 var ASSERTIONS = true;
 
 
@@ -2004,7 +2024,8 @@ var asmLibraryArg = {
   "__cxa_throw": ___cxa_throw,
   "abort": _abort,
   "emscripten_memcpy_big": _emscripten_memcpy_big,
-  "emscripten_resize_heap": _emscripten_resize_heap
+  "emscripten_resize_heap": _emscripten_resize_heap,
+  "time": _time
 };
 var asm = createWasm();
 /** @type {function(...*):?} */
@@ -2021,6 +2042,12 @@ var _getCurrentPlayer = Module["_getCurrentPlayer"] = createExportWrapper("getCu
 
 /** @type {function(...*):?} */
 var _getBestPlay = Module["_getBestPlay"] = createExportWrapper("getBestPlay");
+
+/** @type {function(...*):?} */
+var _getIsTie = Module["_getIsTie"] = createExportWrapper("getIsTie");
+
+/** @type {function(...*):?} */
+var _reset = Module["_reset"] = createExportWrapper("reset");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");

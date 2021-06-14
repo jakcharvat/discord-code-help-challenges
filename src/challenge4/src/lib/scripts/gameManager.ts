@@ -1,4 +1,4 @@
-import { derived, writable } from 'svelte/store'
+import { derived, Readable, Writable, writable } from 'svelte/store'
 import Module from '$lib/WASM/WASM/gameManager'
 
 
@@ -37,7 +37,10 @@ type WinInfo = {
 type TicTacToeState = { 
     currentPlayer: Player, 
     board: Board,
-    win: (WinInfo | null)
+    win: (WinInfo | null),
+    aiPlays: boolean,
+    isTie: boolean,
+    difficulty: 0 | 1 | 2
 }
 
 type Coordinate = {
@@ -45,21 +48,29 @@ type Coordinate = {
     col: number,
 }
 
-const initialState: TicTacToeState = {
-    currentPlayer: Player.Cross,
-    board: [
-        [ 0, 0, 0 ],
-        [ 0, 0, 0 ],
-        [ 0, 0, 0 ]
-    ],
-    win: null
+function initialState({ aiPlays }: { aiPlays: boolean }): TicTacToeState {
+    return {
+        currentPlayer: Player.Cross,
+        board: [
+            [ 0, 0, 0 ],
+            [ 0, 0, 0 ],
+            [ 0, 0, 0 ]
+        ],
+        win: null,
+        aiPlays: aiPlays,
+        isTie: false,
+        difficulty: 0
+    }
 }
 
 function deepcopy(state: TicTacToeState): TicTacToeState {
     return {
         currentPlayer: state.currentPlayer,
         board: state.board.map(row => Object.assign([], row)),
-        win: state.win ? Object.assign({}, state.win) : null
+        win: state.win ? Object.assign({}, state.win) : null,
+        aiPlays: state.aiPlays,
+        isTie: state.isTie,
+        difficulty: state.difficulty
     }
 }
 
@@ -67,11 +78,21 @@ function deepcopy(state: TicTacToeState): TicTacToeState {
 /* --------------------------------------------- GAME MANAGER --------------------------------------------- */
 class GameManager {
     private managerInstance: any 
-    private ticTacToeStore = writable(deepcopy(initialState))
-    gameState = derived(this.ticTacToeStore, state => state)
+    private ticTacToeStore: Writable<TicTacToeState>
+    gameState: Readable<TicTacToeState>
+    aiPlays: boolean
+    difficulty: 0 | 1 | 2
 
-    private constructor(module: any) {
+    private constructor(module: any, aiPlays: boolean) {
         this.managerInstance = module
+        this.ticTacToeStore = writable(deepcopy(initialState({ aiPlays })))
+        this.gameState = derived(this.ticTacToeStore, state => state)
+        this.aiPlays = aiPlays
+
+        this.gameState.subscribe(state => {
+            this.aiPlays = state.aiPlays
+            this.difficulty = state.difficulty
+        })
     }
 
     private static async loadWasm() {
@@ -87,11 +108,15 @@ class GameManager {
     }
 
     private getBestMove(): Coordinate {
-        const coord = this.managerInstance._getBestPlay()
+        const coord = this.managerInstance._getBestPlay(this.difficulty)
         return {
             row: Math.floor(coord / 10),
             col: coord % 10
         }
+    }
+
+    private getIsTie(): boolean {
+        return this.managerInstance._getIsTie()
     }
 
     private play(row: number, col: number): boolean {
@@ -116,30 +141,63 @@ class GameManager {
                 playerChanged = true
             }
 
+            copy.isTie = this.getIsTie()
+
             return copy
         })
 
         return playerChanged
     }
 
-    playPlayer(row: number, col: number) {
-        const played = this.play(row, col)
-        if (played) { this.playAI() }
-    }
-
-    playAI() {
+    private playAI() {
         const coord = this.getBestMove()
         this.play(coord.row, coord.col)
     }
 
-    static async create(): Promise<GameManager> {
-        try {
+    playPlayer(row: number, col: number) {
+        const played = this.play(row, col)
+        if (played && this.aiPlays) { setTimeout(() => {
+            this.playAI()
+        }, 100) }
+    }
+
+    private _reset() {
+        this.managerInstance._reset()
+    }
+    
+    reset() {
+        this._reset()
+        this.ticTacToeStore.update(state => {
+            const copy = deepcopy(state)
+            copy.board.map(row => row.fill(0))
+            copy.isTie = false
+            copy.win = null
+            copy.currentPlayer = Player.Cross
+            return copy
+        })
+    }
+
+    setDifficulty(newDifficulty: 0 | 1 | 2) {
+        this.ticTacToeStore.update(state => {
+            if (state.difficulty !== newDifficulty) {
+                this._reset()
+                const newState = initialState({ aiPlays: state.aiPlays })
+                newState.difficulty = newDifficulty
+                return newState
+            }
+
+            return state
+        })
+    }
+
+    static async create(aiPlays: boolean): Promise<GameManager> {
+        // try {
             const wasm = await GameManager.loadWasm()
-            return new GameManager(wasm)
-        } catch(e) {
-            console.error('Could not instantiate GameManager WASM Module:')
-            console.error(e)
-        }
+            return new GameManager(wasm, aiPlays)
+        // } catch(e) {
+        //     console.error('Could not instantiate GameManager WASM Module:')
+        //     console.error(e)
+        // }
     }
 }
 
