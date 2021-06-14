@@ -18,3 +18,5 @@ Have fun looking through them!
 #### [Challenge 3](./src/challenge3.md)
 > Create the popular challenge FizzBuzz, If you don't know what this is, you can read [this Wikipedia article](https://en.wikipedia.org/wiki/Fizz_buzz) - A bonus point will be awarded to the best submission!
 
+#### [Challenge 4](./src/challenge4)
+> Create a tic-tac-toe game that we, mods, can interact with and display a custom message if we win or lose. BONUS POINTS: Users that can display the number of games won for the bot/computer and user for us to see when we run the game will receive an extra bonus point! Best looking one also receives 1 bonus point. So you can get up to 2 bonus points this week!
