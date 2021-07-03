@@ -6,7 +6,7 @@
 
 #### Link
 
-To view the page live, please head [here](https://jakcharvat-socket-chat.herokuapp.com/)
+To view the page live, please head [here](https://jakcharvat-socket-chat.herokuapp.com/).
 
 > :warning: **Note:** This is deployed as a server on Heroku. I only have a free Heroku account, so it will go to sleep after a while. This will clear the data, and will take a while to boot back up. You can also just run the server locally. 
 
