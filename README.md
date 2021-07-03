@@ -20,3 +20,6 @@ Have fun looking through them!
 
 #### [Challenge 4](./src/challenge4)
 > Create a tic-tac-toe game that we, mods, can interact with and display a custom message if we win or lose. BONUS POINTS: Users that can display the number of games won for the bot/computer and user for us to see when we run the game will receive an extra bonus point! Best looking one also receives 1 bonus point. So you can get up to 2 bonus points this week!
+
+#### [Challenge 5](./src/challenge5.md)
+> Create a real-time chat application using node. Everything else is allowed (for example clients connecting via command line or via an html page ...) Suggestion for people who're not sure how to start: use socket.io (their tutorial is a chat application). 2 bonus points will be given: 1 to the submission with best / most beautiful layout and 1 to the submission with the coolest extra features.
